@@ -26,6 +26,7 @@ const getModules = async (req, res) => {
                     order: [['order', 'ASC']], // Urutkan level berdasarkan urutan (order)
                     include: [
                         {
+                            model: UserProgress,
                             where: { userId }, // Ambil hanya progres untuk pengguna tertentu
                             required: false, // Left join untuk memastikan level tanpa progres juga dimasukkan
                             attributes: ['id', 'completed', 'score'], // Ambil atribut yang relevan

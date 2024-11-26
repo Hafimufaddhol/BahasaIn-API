@@ -7,9 +7,9 @@ module.exports = {
     database: process.env.DB_NAME || 'BahasaIn',
     dialect: process.env.DB_DIALECT || 'mysql',
     host: process.env.DB_HOST || '/cloudsql/bahasain:asia-southeast2:bahasain',
-    dialectOptions: {
-      socketPath: process.env.DB_HOST || '/cloudsql/bahasain:asia-southeast2:bahasain', // Gunakan socketPath untuk koneksi
-    },
+    // dialectOptions: {
+    //   socketPath: process.env.DB_HOST || '/cloudsql/bahasain:asia-southeast2:bahasain', // Gunakan socketPath untuk koneksi
+    // },
     define: {
       underscored: true, // Menggunakan snake_case untuk semua model
       timestamps: true,   // Mengaktifkan created_at dan updated_at

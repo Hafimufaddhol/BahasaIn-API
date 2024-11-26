@@ -1,7 +1,7 @@
 // Utility function for creating a standard API response
 const successResponse = (res, data, message = 'Success', statusCode = 200) => {
     return res.status(statusCode).json({
-      error: false,
+      success: true,
       message,
       data
     });
@@ -10,7 +10,7 @@ const successResponse = (res, data, message = 'Success', statusCode = 200) => {
   // Utility function for creating a standard error response
   const errorResponse = (res, error, message = 'Something went wrong', statusCode = 500) => {
     return res.status(statusCode).json({
-      wrror: true,
+      success: false,
       message,
       error: error instanceof Error ? error.message : error
     });

@@ -5,8 +5,11 @@ module.exports = {
     username: process.env.DB_USERNAME || 'root',
     password: process.env.DB_PASSWORD || '',
     database: process.env.DB_NAME || 'BahasaIn',
-    host: process.env.DB_HOST || '127.0.0.1',
     dialect: process.env.DB_DIALECT || 'mysql',
+    host: process.env.DB_HOST || '/cloudsql/bahasain:asia-southeast2:bahasain',
+    dialectOptions: {
+      socketPath: process.env.DB_HOST || '/cloudsql/bahasain:asia-southeast2:bahasain', // Gunakan socketPath untuk koneksi
+    },
     define: {
       underscored: true, // Menggunakan snake_case untuk semua model
       timestamps: true,   // Mengaktifkan created_at dan updated_at
@@ -31,8 +34,11 @@ module.exports = {
     username: process.env.DB_USERNAME || 'root',
     password: process.env.DB_PASSWORD || '',
     database: process.env.DB_NAME || 'BahasaIn',
-    host: process.env.DB_HOST || '127.0.0.1',
     dialect: process.env.DB_DIALECT || 'mysql',
+    host: process.env.DB_HOST || '/cloudsql/bahasain:asia-southeast2:bahasain',
+    dialectOptions: {
+      socketPath: process.env.DB_HOST || '/cloudsql/bahasain:asia-southeast2:bahasain', // Gunakan socketPath untuk koneksi
+    },
     define: {
       underscored: true,
       timestamps: true,

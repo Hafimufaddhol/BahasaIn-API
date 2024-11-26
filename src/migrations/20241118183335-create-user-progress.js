@@ -13,7 +13,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
         references: {
-          model: 'Users', // Nama tabel Users
+          model: 'users', // Nama tabel Users
           key: 'id',
         },
         onDelete: 'CASCADE',
@@ -22,7 +22,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull : false,
         references : {
-          model : 'Modules',
+          model : 'modules',
           key : 'id'
         },
         onDelete : 'CASCADE'
@@ -31,7 +31,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull : false,
         references : {
-          model : 'Levels',
+          model : 'levels',
           key : 'id'
         },
         onDelete : 'CASCADE'

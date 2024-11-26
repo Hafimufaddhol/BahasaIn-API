@@ -10,7 +10,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: 'http://localhost:3000/api', // Base URL dari API Anda
+        url: `${process.env.URL || 'http://localhost:3000'}/api`, // Base URL dari API Anda
         description: 'Local development server',
       },
     ],

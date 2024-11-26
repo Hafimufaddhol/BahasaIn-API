@@ -17,7 +17,7 @@ module.exports = {
       });
     }
 
-    await queryInterface.bulkInsert('Users', users, {});
+    await queryInterface.bulkInsert('users', users, {});
   },
 
   down: async (queryInterface, Sequelize) => {

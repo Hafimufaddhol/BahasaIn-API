@@ -9,6 +9,11 @@ const checkAndUpdateUserLevel = async (userId, moduleId, userProgressLevel, tran
         attributes: ['id'],
         transaction,
     });
+    const module = await Level.findOne({
+        where: { id : moduleId },
+        attributes: ['level'],
+        transaction,
+    });
 
     const completedLevels = userProgressLevel
         .filter((progress) => progress.completed)
@@ -18,7 +23,7 @@ const checkAndUpdateUserLevel = async (userId, moduleId, userProgressLevel, tran
 
     if (allCompleted) {
         const user = await User.findOne({ where: { id: userId }, transaction });
-        if (user) {
+        if (user && user.userLevel<=module.level) {
             user.level += 1;
             await user.save({ transaction });
         }

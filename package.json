@@ -5,6 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/app.js",
+    "start-proxy": "./cloud_sql_proxy -instances=bahasain:asia-southeast2:bahasain=tcp:3306",
     "dev": "nodemon src/app.js",
     "db:migrate": "npx sequelize-cli db:migrate --config src/config/config.js --migrations-path src/migrations",
     "db:fresh": "npx sequelize-cli db:migrate:undo:all --config src/config/config.js --migrations-path src/migrations && npx sequelize-cli db:migrate --config src/config/config.js --migrations-path src/migrations",

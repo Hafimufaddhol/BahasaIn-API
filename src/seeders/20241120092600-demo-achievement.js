@@ -16,7 +16,7 @@ module.exports = {
       });
     }
 
-    await queryInterface.bulkInsert('Achievements', achievements, {});
+    await queryInterface.bulkInsert('achievements', achievements, {});
   },
 
   down: async (queryInterface, Sequelize) => {

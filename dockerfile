@@ -1,21 +1,21 @@
-# Gunakan Node.js sebagai base image
+# Gunakan node sebagai base image
 FROM node:18
 
-# Set working directory
-WORKDIR /src/app
+# Buat direktori kerja
+WORKDIR /src
 
-# Copy package.json dan package-lock.json
+# Salin file package.json dan package-lock.json
 COPY package*.json ./
 
 # Install dependencies
 RUN npm install
 
-# Copy seluruh file proyek
+# Salin semua file proyek
 COPY . .
 
-# Expose port aplikasi (sesuai port yang digunakan di Express, biasanya 8080)
+# Ekspos port aplikasi
 EXPOSE 8080
 
-# Perintah untuk menjalankan server
-CMD   ["npx", "sequelize-cli", "db:migrate"] && ["npm", "start"]
+# Perintah untuk menjalankan aplikasi
+CMD ["npm", "start"]
 

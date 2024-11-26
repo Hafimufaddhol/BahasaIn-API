@@ -16,7 +16,7 @@ const register = async (req, res) => {
     const error = validatePassword(password,confirmPassword)
 
     if (error.length > 0) {
-      return res.status(400).json({ error }); // Mengembalikan semua error
+      return res.status(400).json({ error });
     }
 
     // Hash password sebelum disimpan

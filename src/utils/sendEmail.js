@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer');
 
 const sendEmail = async ({ to, token }) => {
   try {
-    const resetLink = `${process.env.FRONTEND_URL}/reset-password/${token}`; // URL reset password
+    const resetLink = `${process.env.URL}/reset-password/${token}`; // URL reset password
 
     // Konfigurasi transporter
     const transporter = nodemailer.createTransport({

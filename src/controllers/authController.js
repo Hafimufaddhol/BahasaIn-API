@@ -88,7 +88,7 @@ const refresh = async (req, res) => {
       const resetToken = await generateResetToken(user);
   
       // Kirim email reset password
-      const resetLink = `http://localhost:3000/reset-password/${resetToken}`;
+      const resetLink = `${process.env.URL}/reset-password/${resetToken}`;
       await sendEmail({
         to: user.email, // Alamat email penerima
         token: resetToken, // Token reset password

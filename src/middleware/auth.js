@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { User } = require("../models");
+const { errorResponse } = require('../utils/responseConsistency'); // Import errorResponse utility
 
 module.exports = async (req, res, next) => {
   try {
@@ -7,12 +8,7 @@ module.exports = async (req, res, next) => {
     const bearerToken = req.headers.authorization;
 
     if (!bearerToken || !bearerToken.startsWith("Bearer ")) {
-      return res.status(401).json({
-        status: "failed",
-        message: "Token is missing or invalid",
-        isSuccess: false,
-        data: null,
-      });
+      return errorResponse(res, "Token is missing or invalid", "Unauthorized", 401);
     }
 
     // Ambil token setelah "Bearer "
@@ -23,25 +19,10 @@ module.exports = async (req, res, next) => {
     next();
   } catch (error) {
     if (error.name === "TokenExpiredError") {
-      return res.status(401).json({
-        status: "failed",
-        message: "Token has expired",
-        isSuccess: false,
-        data: null,
-      });
+      return errorResponse(res, "Token has expired", "Unauthorized", 401);
     } else if (error.name === "JsonWebTokenError") {
-      return res.status(401).json({
-        status: "failed",
-        message: "Token is invalid",
-        isSuccess: false,
-        data: null,
-      });
+      return errorResponse(res, "Token is invalid", "Unauthorized", 401);
     }
-    return res.status(500).json({
-      status: "failed",
-      message: "Internal server error",
-      isSuccess: false,
-      data: null,
-    });
+    return errorResponse(res, "Internal server error", "Error", 500);
   }
 };

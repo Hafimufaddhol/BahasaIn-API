@@ -1,33 +1,37 @@
 const validatePassword = (password, confirmPassword) => {
     const errors = [];
-    // validasi jumlah password
-    if (password!==confirmPassword) {
-        errors.push('password konfirmasi tidak sesuai');
+    
+    // Validate if passwords match
+    if (password !== confirmPassword) {
+        errors.push('Passwords do not match');
     }
-    // validasi jumlah password
+
+    // Validate password length
     if (password.length < 8) {
-        errors.push('Password harus memiliki minimal 8 karakter');
+        errors.push('Password must be at least 8 characters long');
     }
-    // Validasi huruf kecil
+
+    // Validate lowercase letter
     if (!/[a-z]/.test(password)) {
-        errors.push('Password harus mengandung huruf kecil');
+        errors.push('Password must contain at least one lowercase letter');
     }
 
-    // Validasi huruf besar
+    // Validate uppercase letter
     if (!/[A-Z]/.test(password)) {
-        errors.push('Password harus mengandung huruf besar');
+        errors.push('Password must contain at least one uppercase letter');
     }
 
-    // Validasi angka
+    // Validate number
     if (!/\d/.test(password)) {
-        errors.push('Password harus mengandung angka');
+        errors.push('Password must contain at least one number');
     }
 
-    // Validasi karakter spesial
+    // Validate special character
     // if (!/[@$!%*?&]/.test(password)) {
-    //   errors.push('Password harus mengandung karakter spesial seperti @$!%*?&');
+    //   errors.push('Password must contain a special character like @$!%*?&');
     // }
 
     return errors;
 };
-module.exports={ validatePassword };
+
+module.exports = { validatePassword };

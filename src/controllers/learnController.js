@@ -1,4 +1,6 @@
 const { UserProgress, Module, Level, Quiz, QuizOption, Sequelize, User } = require('../models');
+const { successResponse, errorResponse } = require('../utils/responseConsistency');
+
 const { Op, where } = require('sequelize');
 
 // Fungsi untuk mendapatkan modul dengan level dan status penyelesaian
@@ -9,17 +11,17 @@ const getModules = async (req, res) => {
         // Ambil data pengguna berdasarkan ID
         const user = await User.findByPk(userId);
         if (!user) {
-            return res.status(401).json({ error: 'User tidak ditemukan' });
+            return errorResponse(res, 'User tidak ditemukan', 'User not found', 401);
         }
 
         // Ambil semua modul dari database
         const modules = await Module.findAll({
-            order: [['level', 'ASC']],
+            order: [['level', 'ASC']], // Urutkan berdasarkan level secara ascending
             where: {
                 level: {
                     [Op.gt]: 0, // Level module must be greater than 0
                 },
-            }, // Urutkan berdasarkan level secara ascending
+            },
             include: [
                 {
                     model: Level, // Sertakan semua level terkait untuk setiap modul
@@ -60,67 +62,65 @@ const getModules = async (req, res) => {
             };
         });
 
-        // Kirim respons ke klien
-        res.status(200).json({
-            message : 'Successful get module',
-            data: response,
-        });
+        // Kirim respons ke klien menggunakan successResponse
+        successResponse(res, response, 'Successful get module');
     } catch (error) {
         console.error('Error fetching modules and levels:', error);
-        res.status(500).json({
-            status: 'failed',
-            message: 'Gagal mengambil data modul dan level',
-        });
+        errorResponse(res, error, 'Gagal mengambil data modul dan level', 500);
     }
 };
 
 
+
 const getLevel = async (req, res) => {
-    const { moduleId, levelId } = req.params
+    const { moduleId, levelId } = req.params;
+    
     try {
         const levels = await Level.findAll({
-            where : {
-                moduleId : moduleId,
-                id : levelId
+            where: {
+                moduleId: moduleId,
+                id: levelId,
             },
-            order:[['order','ASC']],
-            include : [
+            order: [['order', 'ASC']],
+            include: [
                 {
                     model: Quiz,
                     include: [
                         {
                             model: QuizOption,
-                        }
-                    ]
-                }
-            ]
-        })       
-        if(!levels||levels.length<1){
-            return res.status(401).json({ error: 'level tidak tersedia' })
-        }
-        const response = levels.map(level=>({
-            id:level.id,
-            title:level.title,
-            quizzes : level.Quizzes.map(quiz=>({
-                id : quiz.id,
-                type : quiz.type,
-                question : quiz.question,
-                answer : quiz.answer,
-                quizOption : quiz.QuizOptions.map(quizOption=>({
-                    id:quizOption.id,
-                    option : quizOption.option
-                }))
-            }))
-        }))
-        res.status(200).json(response)
-    }catch(error){
-        console.error('Error fetching level:', error);
-        res.status(500).json({
-            status: 'failed',
-            message: 'Error fetching level content',
+                        },
+                    ],
+                },
+            ],
         });
+
+        if (!levels || levels.length < 1) {
+            return errorResponse(res, 'Level tidak tersedia', 'Level not available', 401);
+        }
+
+        const response = levels.map((level) => ({
+            id: level.id,
+            title: level.title,
+            quizzes: level.Quizzes.map((quiz) => ({
+                id: quiz.id,
+                type: quiz.type,
+                question: quiz.question,
+                answer: quiz.answer,
+                quizOption: quiz.QuizOptions.map((quizOption) => ({
+                    id: quizOption.id,
+                    option: quizOption.option,
+                })),
+            })),
+        }));
+
+        // Kirim respons ke klien menggunakan successResponse
+        successResponse(res, response, 'Level content fetched successfully');
+    } catch (error) {
+        console.error('Error fetching level:', error);
+        errorResponse(res, error, 'Error fetching level content', 500);
     }
-}
+};
+
 
 
 

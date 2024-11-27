@@ -14,10 +14,10 @@ module.exports = {
         updated_at: new Date()
       });
     }
-    await queryInterface.bulkInsert('Words', words, {});
+    await queryInterface.bulkInsert('words', words, {});
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete('Words', null, {});
+    await queryInterface.bulkDelete('words', null, {});
   }
 };

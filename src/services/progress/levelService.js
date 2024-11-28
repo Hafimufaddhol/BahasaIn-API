@@ -24,7 +24,7 @@ const checkAndUpdateUserLevel = async (userId, moduleId, userProgressLevel, tran
     if (allCompleted) {
         const user = await User.findOne({ where: { id: userId }, transaction });
         if (user && user.userLevel<=module.level) {
-            user.level += 1;
+            user.userLevel += 1;
             await user.save({ transaction });
         }
     }

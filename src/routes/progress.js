@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {putUserProgress} = require('../controllers/progressController')
+const {putUserProgress,setUserLevel} = require('../controllers/progressController')
 const { validateBody } = require('../middleware/validateBody');
 
 /**
@@ -116,6 +116,75 @@ const { validateBody } = require('../middleware/validateBody');
 
 
 router.put('/',validateBody(['moduleId','levelId','score']),putUserProgress);
+
+/**
+ * @swagger
+ * /progress/level:
+ *   post:
+ *     summary: Set or update the user's level based on score
+ *     description: Sets the user's level based on the provided score. The score must be between 0 and 10.
+ *     tags:
+ *       - Progress
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               score:
+ *                 type: integer
+ *                 example: 8
+ *                 description: The user's score (between 0 and 10) used to determine the level.
+ *     responses:
+ *       200:
+ *         description: User level successfully set.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: User level successfully set.
+ *       400:
+ *         description: Invalid score or user level already set.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Score must be between 0 and 10 or User level already set.
+ *       404:
+ *         description: User not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: User not found.
+ *       500:
+ *         description: Internal server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: failed
+ *                 message:
+ *                   type: string
+ *                   example: Internal server error.
+ */
+
+router.post('/',validateBody(['score']),setUserLevel);
 
 
 

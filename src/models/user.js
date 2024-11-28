@@ -65,6 +65,11 @@ module.exports = (sequelize, DataTypes) => {
         type : DataTypes.JSON,
         allowNull : true,
         field : 'interest'
+      },
+      notifFrequent :{
+        type : DataTypes.INTEGER,
+        allowNull : true,
+        field : 'notif_frequent'
       }
     },
     {

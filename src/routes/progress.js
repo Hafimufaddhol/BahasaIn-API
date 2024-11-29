@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const {putUserProgress,setUserLevel} = require('../controllers/progressController')
 const { validateBody } = require('../middleware/validateBody');
+const auth = require ('../middleware/auth')
 
 /**
  * @swagger
@@ -184,7 +185,7 @@ router.put('/',validateBody(['moduleId','levelId','score']),putUserProgress);
  *                   example: Internal server error.
  */
 
-router.post('/',validateBody(['score']),setUserLevel);
+router.post('/level',auth,validateBody(['score']),setUserLevel);
 
 
 

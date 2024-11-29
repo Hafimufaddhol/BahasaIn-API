@@ -6,7 +6,7 @@ module.exports = {
     password: process.env.DB_PASSWORD || '',
     database: process.env.DB_NAME || 'BahasaIn',
     dialect: process.env.DB_DIALECT || 'mysql',
-    host: process.env.DB_HOST || '/cloudsql/bahasain:asia-southeast2:bahasain',
+    host: process.env.DB_HOST || '127.0.0.1',
     // dialectOptions: {
     //   socketPath: process.env.DB_HOST || '/cloudsql/bahasain:asia-southeast2:bahasain', // Gunakan socketPath untuk koneksi
     // },

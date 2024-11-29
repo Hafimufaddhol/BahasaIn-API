@@ -26,7 +26,9 @@ app.use((req, res, next) => {
 app.get('/reset-password/:token', (req, res) => {
   res.sendFile(path.join(__dirname, '../src/public/reset-password.html'));
 });
-
+app.use((req, res, next) => {
+  res.status(404).json({ error: 'Endpoint not found' });
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

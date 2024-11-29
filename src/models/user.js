@@ -66,11 +66,6 @@ module.exports = (sequelize, DataTypes) => {
         allowNull : true,
         field : 'interest'
       },
-      notifFrequent :{
-        type : DataTypes.INTEGER,
-        allowNull : true,
-        field : 'notif_frequent'
-      }
     },
     {
       sequelize,

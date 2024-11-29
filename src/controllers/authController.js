@@ -70,11 +70,15 @@ const refresh = async (req, res) => {
     const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
     const userId = await validateToken(refreshToken, 'refresh');
 
+    
+
     if (!userId) {
       return errorResponse(res, 'Invalid refresh Token', 'Invalid refresh token', 403);
     }
+    const user = await User.findByPk(userId);
+    
 
-    const newAccessToken = generateAccessToken({ id: decoded.id, name: decoded.name });
+    const newAccessToken = generateAccessToken(user);
     successResponse(res, { accessToken: newAccessToken }, 'Access token refreshed successfully');
   } catch (err) {
     if (err.name === 'TokenExpiredError') {

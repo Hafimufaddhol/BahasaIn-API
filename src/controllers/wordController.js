@@ -1,6 +1,7 @@
-const { Word } = require('../models');
-const { Op } = require('sequelize'); // Sequelize operators
+const { Word,WordCategory } = require('../models');
+const { Op, Model, where } = require('sequelize'); // Sequelize operators
 const { successResponse, errorResponse } = require('../utils/responseConsistency'); // Import utility functions
+
 
 const getWord = async (req, res) => {
     const { page = 1, limit = 10, search = '', categories = '' } = req.query;
@@ -23,8 +24,18 @@ const getWord = async (req, res) => {
                 word: {
                     [Op.like]: `%${search}%`, // Search by word
                 },
-                ...categoryFilter
+
             },
+            order: [['word', 'ASC']], 
+            include: [
+                {
+                    model: WordCategory,
+                    attributes:['category'],
+                    where : {
+                        ...categoryFilter
+                    }
+                }
+            ],
             offset: (page - 1) * limit, // For pagination
             limit: parseInt(limit, 10),
         };
@@ -36,7 +47,6 @@ const getWord = async (req, res) => {
         const response = words.map(word => ({
             id: word.id,
             word: word.word,
-            category: word.category,
         }));
 
         // Send the success response

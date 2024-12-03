@@ -1,4 +1,5 @@
 const swaggerJsDoc = require('swagger-jsdoc');
+require('dotenv').config();
 
 const swaggerOptions = {
   swaggerDefinition: {
@@ -10,8 +11,11 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: `${process.env.URL || 'http://localhost:3000'}/api`, // Base URL dari API Anda
+        url: `${'http://localhost:8080'}/api`, // Base URL dari API Anda
         description: 'Local development server',
+      },      {
+        url: `${process.env.URL}/api`, // Base URL dari API Anda
+        description: 'online development server',
       },
     ],
     components: {

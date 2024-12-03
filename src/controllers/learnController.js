@@ -50,7 +50,7 @@ const getModules = async (req, res) => {
                 id: module.id,
                 name: module.name,
                 level: module.level,
-                isAccessible: user.level >= module.level, // Cek apakah modul dapat diakses
+                isAccessible: user.userLevel >= module.level, // Cek apakah modul dapat diakses
                 lessonsCompleted: `${completedLevels}/${totalLevels}`, // Format penyelesaian modul
                 levels: module.Levels.map((level) => ({
                     id: level.id,

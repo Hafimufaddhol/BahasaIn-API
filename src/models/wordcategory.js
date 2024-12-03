@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Word extends Model {
+  class WordCategory extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,20 +11,22 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Word.hasMany(models.WordCategory, {
+      WordCategory.belongsTo(models.Word, {
         foreignKey: 'word_id',
       });
+            
     }
   }
-  Word.init({
-    word: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      field: 'word'
-    },
+  WordCategory.init({
+    wordId: DataTypes.INTEGER,
+    translate:DataTypes.STRING,
+    category: DataTypes.STRING,
+    description: DataTypes.TEXT,
+    example: DataTypes.TEXT
   }, {
     sequelize,
-    modelName: 'Word',
+    modelName: 'WordCategory',
+    underscored: true,  
   });
-  return Word;
+  return WordCategory;
 };

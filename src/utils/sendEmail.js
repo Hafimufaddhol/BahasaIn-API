@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer');
 
 const sendEmail = async ({ to, token }) => {
   try {
-    const resetLink = `${process.env.URL}/reset-password/${token}`; // URL reset password
+    const resetLink = `${process.env.URL??`http://localhost:8080`}/reset-password/${token}` // URL reset password
 
     // Konfigurasi transporter
     const transporter = nodemailer.createTransport({
@@ -45,6 +45,8 @@ const sendEmail = async ({ to, token }) => {
     // Kirim email
     await transporter.sendMail(mailOptions);
     console.log(`Email sent to ${to}`);
+    console.log(`Reset link: ${resetLink}`);
+    
   } catch (error) {
     console.error('Error sending email:', error);
     throw new Error('Failed to send email');

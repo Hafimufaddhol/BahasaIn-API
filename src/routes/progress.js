@@ -122,7 +122,7 @@ router.put('/',validateBody(['moduleId','levelId','score']),putUserProgress);
  * @swagger
  * /progress/level:
  *   post:
- *     summary: Set or update the user's level based on score
+ *     summary: Set or update the user's level based on placment test
  *     description: Sets the user's level based on the provided score. The score must be between 0 and 10.
  *     tags:
  *       - Progress
@@ -135,9 +135,9 @@ router.put('/',validateBody(['moduleId','levelId','score']),putUserProgress);
  *           schema:
  *             type: object
  *             properties:
- *               score:
+ *               level:
  *                 type: integer
- *                 example: 8
+ *                 example: 1
  *                 description: The user's score (between 0 and 10) used to determine the level.
  *     responses:
  *       200:
@@ -185,7 +185,7 @@ router.put('/',validateBody(['moduleId','levelId','score']),putUserProgress);
  *                   example: Internal server error.
  */
 
-router.post('/level',auth,validateBody(['score']),setUserLevel);
+router.post('/level',auth,validateBody(['level']),setUserLevel);
 
 
 

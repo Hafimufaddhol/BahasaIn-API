@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
       // Relasi dengan tabel Streak
-      User.hasOne(models.Streak, { foreignKey: 'user_id', as: 'streak' });
+      User.hasOne(models.Streak, { foreignKey: 'user_id'});
 
       // Relasi dengan tabel Tokens
       User.hasMany(models.Token, { foreignKey: 'user_id', as: 'tokens' });
@@ -17,7 +17,6 @@ module.exports = (sequelize, DataTypes) => {
         through: models.UserAchievement,
         foreignKey: 'user_id',
         otherKey: 'achievement_id',
-        as: 'achievements',
       });
 
       // Relasi dengan tabel UserProgress
@@ -56,16 +55,21 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
         field: 'user_level'
       },
-      profilePict : {
+      avatar : {
         type : DataTypes.STRING,
         allowNull : true,
-        field : 'profile_pict'
+        field : 'avatar'
       },
-      interest : {
-        type : DataTypes.JSON,
+      notificationPreference : {
+        type : DataTypes.INTEGER,
         allowNull : true,
-        field : 'interest'
+        field : 'notification_preference'
       },
+      point : {
+        type : DataTypes.INTEGER,
+        allowNull : true,
+        field : 'point'
+      }
     },
     {
       sequelize,

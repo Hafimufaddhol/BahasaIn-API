@@ -1,16 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const { getWord }= require ('../controllers/wordController')
-const auth = require('../middleware/auth');
+const { getWord, getWordById }= require ('../controllers/wordController')
 
 /**
  * @swagger
- * /words/:
+ * /word/:
  *   get:
  *     summary: Retrieve a list of words with optional filtering and pagination
  *     description: Fetches words based on search criteria, categories, and pagination.
  *     tags:
- *       - Words
+ *       - Word
  *     parameters:
  *       - name: page
  *         in: query
@@ -21,7 +20,7 @@ const auth = require('../middleware/auth');
  *           example: 1
  *       - name: limit
  *         in: query
- *         description: The number of words per page (default is 10).
+ *         description: The number of words per page.
  *         required: false
  *         schema:
  *           type: integer
@@ -32,14 +31,13 @@ const auth = require('../middleware/auth');
  *         required: false
  *         schema:
  *           type: string
- *           example: "apple"
  *       - name: categories
  *         in: query
  *         description: Comma-separated list of categories to filter words by (optional).
  *         required: false
  *         schema:
  *           type: string
- *           example: "fruit,food"
+ *           example: "noun,verb"
  *     responses:
  *       200:
  *         description: A list of words matching the search and category filters.
@@ -90,6 +88,56 @@ const auth = require('../middleware/auth');
  *                   example: Internal server error
  */
 
-router.get('/',auth,getWord)
+router.get('/',getWord)
+
+/**
+ * @swagger
+ * /word/{id}:
+ *   get:
+ *     summary: Get a word by ID
+ *     tags: [Word]
+ *     description: This endpoint allows you to fetch a word by its ID along with its associated category details.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: The ID of the word to be fetched
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Word fetched successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                   description: The word's ID
+ *                 word:
+ *                   type: string
+ *                   description: The word
+ *                 translate:
+ *                   type: string
+ *                   description: The translation of the word
+ *                 category:
+ *                   type: string
+ *                   description: The category of the word
+ *                 description:
+ *                   type: string
+ *                   description: The description of the word
+ *                 example:
+ *                   type: string
+ *                   description: An example sentence with the word
+ *       404:
+ *         description: Word not found
+ *       500:
+ *         description: Internal server error
+ */
+router.get('/:id', getWordById);
+
+
+
 
 module.exports = router;

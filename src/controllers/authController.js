@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const { User, Token } = require('../models');
+const { User,Streak, Token } = require('../models');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const { generateAccessToken, generateRefreshToken, generateResetToken, validateToken } = require('../utils/tokenHelper');
@@ -7,6 +7,7 @@ const { sendEmail } = require('../utils/sendEmail');
 const { validatePassword } = require('../utils/validatePassword');
 const { successResponse, errorResponse, paginatedResponse } = require('../utils/responseConsistency');
 const { error } = require('console');
+const { Model } = require('sequelize');
 
 
 
@@ -43,7 +44,10 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({
+      where: { email },
+      include: [{ model: Streak }]
+    });
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return errorResponse(res, 'Invalid credentials', 'Authentication failed', 401);
@@ -148,15 +152,11 @@ const resetPassword = async (req, res) => {
 
 
 const logout = async (req, res) => {
-  const { refreshToken } = req.body;
-
-  if (!refreshToken) {
-    return errorResponse(res, 'Refresh token required for logout', 'Token missing', 400);
-  }
+  const userId= req.user.id;
 
   try {
     const deletedToken = await Token.destroy({
-      where: { token: refreshToken, type: 'refresh' },
+      where: { userId: userId, type: 'refresh' },
     });
 
     if (!deletedToken) {

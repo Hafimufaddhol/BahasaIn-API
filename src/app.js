@@ -1,34 +1,56 @@
 const express = require('express');
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocs = require('./swagger');
-const path = require('path');
-require('dotenv').config();
+const swaggerDocs = require('./config/swagger');
 const bodyParser = require('body-parser');
-const authRoutes = require('./routes/auth');
-const learnRoutes = require('./routes/learn');
-const progressRoutes = require('./routes/progress');
-const wordRoutes = require('./routes/word')
-const auth = require('./middleware/auth')
+const path = require('path');
+const routes = require('./routes');
+const helmet = require('helmet')
+const resetStreak = require('./services/resetStreak')
 
 const app = express();
+
+// Middleware
 app.use(bodyParser.json());
-app.use(express.static('public'));
+app.use(helmet())
+app.use(express.static('src/public'));
+app.get('/api-docs/json', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerDocs); // Send swaggerDocs object as JSON
+});
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-app.use('/api/auth', authRoutes);
-app.use('/api/module',auth, learnRoutes);
-app.use('/api/progress',auth, progressRoutes);
-app.use('/api/words',auth, wordRoutes);
+
+
+// Logging middleware
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.originalUrl} - Body:`, req.body);
   next();
 });
 
+// Routes
+app.use('/api', routes);
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Handle reset-password
 app.get('/reset-password/:token', (req, res) => {
-  res.sendFile(path.join(__dirname, '../src/public/reset-password.html'));
+  res.sendFile(path.join(__dirname, 'public/reset-password.html'));
 });
-app.use((req, res, next) => {
+
+// Handle reset-streak
+app.post('/reset-streak',resetStreak)
+
+// 404 Handler
+app.use((req, res) => {
   res.status(404).json({ error: 'Endpoint not found' });
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// 500 Error Handler
+app.use((err, req, res, next) => {
+  console.error('Internal Server Error:', err.stack); // Log the error for debugging
+  res.status(500).json({
+    error: 'Internal Server Error',
+    message: err.message || 'Something went wrong!',
+  });
+});
+
+module.exports = app;

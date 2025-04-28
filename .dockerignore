@@ -1,3 +1,5 @@
 /node_modules
+src/migrations
+src/seeders
 .env
-cloud_sql_proxy.exe
+cloud-sql-proxy.exe

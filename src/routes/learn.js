@@ -11,7 +11,7 @@ const {getModules,getLevel} = require('../controllers/learnController')
  *     summary: Retrieve all modules
  *     description: Get a list of all modules along with their levels and completion status.
  *     tags:
- *       - Modules
+ *       - Module
  *     security:
  *       - BearerAuth: []
  *     responses:
@@ -22,7 +22,7 @@ const {getModules,getLevel} = require('../controllers/learnController')
  *             schema:
  *               type: object
  *               properties:
- *                 module:
+ *                 modules:
  *                   type: array
  *                   items:
  *                     type: object
@@ -61,7 +61,7 @@ router.get('/', getModules);
  *     summary: Retrieve details of a specific level
  *     description: Get details of a specific level, including its content and quizzes.
  *     tags:
- *       - Modules
+ *       - Module
  *     security:
  *       - BearerAuth: []
  *     parameters:
